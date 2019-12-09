@@ -1,0 +1,199 @@
+VARIABLES
+throwaway_items = []
+call_merchant = false
+	
+	
+	
+	
+	
+Warrior()
+ALL
+if no target selected
+	search for monster within skill level
+		if found
+			target monster
+		else
+			if !moving
+				move to new location
+ATTACK
+SENDTOMERCHANT
+LOOT
+		
+10s
+if target healt > 1/5 and target not attacking dps
+	for monsters
+		if attacking dps
+			target monster
+			break
+		
+		
+		
+		
+Mage()
+ALL
+if warrior far away:
+	if !moving
+		move close to warrior
+get warrior target
+ATTACK
+SENDTOMERCHANT
+LOOT
+
+
+
+
+Priest()
+ALL
+if warrior not in range:
+	if !moving
+		move in range of warrior
+if bullet available
+	for party member
+		if needs healing
+			to list
+	if list > 0
+		if list > 1
+			go through list and find 
+			character who needs heal most
+		else
+			heal character
+	else
+		get warrior target
+		ATTACK
+SENDTOMERCHANT
+LOOT
+
+
+
+
+Merchant()
+if not marketing
+	ALL
+	
+	if reason is call
+		if being called
+			if !moving
+				move close to caller
+		else if too much gold
+			if in bank
+				deposit part of gold
+			else
+				if !moving
+					move to bank
+		else if has throwaway items
+			if buyer in range
+				sell items
+			else
+				if !moving
+					move to buyer
+		else
+			reason = none
+	else if reason is memberneedspotion
+		if you have potion
+			if member in range
+				give potion
+				reason = none
+			else
+				if !moving
+					move close to member
+		else
+			if !moving
+				get potion
+	else if reason is none
+		if something to sell/buy:
+			go to town
+			open stand
+			marketing = true
+		else if warrior too far away
+			if !moving
+				move close to warrior
+
+15s
+if reason != call
+	if being called
+		marketing = false
+		reason = call
+
+5m
+if reason != memberneedspotion
+	for party member
+		if needs potion items
+			marketing = false
+			reason = memberneedspotion
+			member = party member
+			
+
+
+ALL
+if dead
+	respawn
+	UPDATEPLAYERS
+	POTIONS
+	RETREAT
+	FLEE
+
+
+	
+	
+
+UPDATEPLAYERS
+
+	
+	
+	
+	
+POTIONS
+if hp low and potion available
+	use hp potion
+else if mp low and potion available
+	use mp potion
+
+
+
+
+
+FLEE
+if enemy close to you:
+	if warrior and healt not low
+		return
+	else
+		flee
+
+
+
+ATTACK
+if target selected
+	if in range
+		attack
+	else
+		if !moving
+			move to target
+
+
+
+SENDTOMERCHANT
+5m
+if too much gold
+	if merchant nearby
+		give gold
+		uncall merchant
+	else
+		call merchant
+if inventory almost full
+	if merchant nearby
+		give items
+		uncall merchant
+	else
+		call merchant
+
+
+LOOT
+10s
+if loot close
+	if loot in range
+		grab loot
+		if loot better than current
+			switch
+	else
+		if !moving
+			move too loot
