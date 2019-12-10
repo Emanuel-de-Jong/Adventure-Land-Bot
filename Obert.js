@@ -29,7 +29,7 @@ setInterval(function(){
 				smart_move("Town");
 			}
 			else if(is_in_range("Town")){
-				parent.socket.emit("merchant",{close:1});
+				parent.socket.emit("merchant", {num: 2});
 				marketing = true;
 			}
 		}
@@ -41,7 +41,7 @@ var caller = "";
 function on_cm(name, data){
 	if(!player_names.includes(name)) return;
 	if(data == "call"){
-		marketing = false;
+		stop_marketing();
 		reason = data;
 		caller = window(name);
 	}
@@ -60,6 +60,7 @@ var mini_mp_potions = 150;
 var mp_before_potion_type_change = 1000;
 var mp_potion_overshoot = 150;
 setInterval(function(){
+	if(reason == "player_needs_potion") return;
 	var player_needs_potion = false;
 	for(i = 0; i < player_names.length; i++){
 		var player = window(player_names[i]);
@@ -102,7 +103,14 @@ setInterval(function(){
 	}
 
 	if(player_needs_potion){
-		marketing = false;
+		stop_marketing();
 		reason = "player_needs_potion";
 	}
 },1000*120);
+
+
+
+function stop_marketing(){
+	parent.socket.emit("merchant", {close:1});
+	marketing = false;
+}
