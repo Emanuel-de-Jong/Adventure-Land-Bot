@@ -1,13 +1,14 @@
 var throwaway_items = [];
-var call_merchant = false;
+var merchant_called = true;
 setInterval(function(){
 	if(charcater.gold > character.max_hp * 10){
 		if(is_in_range(Obert)){
-			call_merchant = false
 			send_gold(Obert, character.gold)
+			merchant_called = false;
 		}
-		else{
-			call_merchant = true;
+		else if(!merchant_called){
+			call_merchant()
+			merchant_called = true;
 		}
 	}
 	
@@ -24,14 +25,16 @@ setInterval(function(){
 				for(i = 0; i < items_to_send.length; i++){
 					send_item(Obert, items_to_send[i]);
 				}
+				merchant_called = false;
 			}
-			else{
-				call_merchant = true;
+			else if(!merchant_called){
+				call_merchant()
+				merchant_called = true;
 			}
 		}
 	}
 },1000*60)
 
 function call_merchant(){
-	
+	send_cm(Obert, "call");
 }

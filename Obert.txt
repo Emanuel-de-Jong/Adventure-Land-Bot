@@ -32,13 +32,9 @@ if not marketing
 			if !moving
 				get potion
 	else if reason is none
-		if something to sell/buy:
-			go to town
-			open stand
-			marketing = true
-		else if warrior too far away
-			if !moving
-				move close to warrior
+        go to town
+        open stand
+        marketing = true
 
 15s
 if reason != call
