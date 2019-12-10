@@ -1,4 +1,3 @@
-//asf
 load_code("update_players");
 load_code("potions");
 load_code("keep_distance");
