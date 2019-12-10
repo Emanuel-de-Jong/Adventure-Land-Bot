@@ -31,3 +31,7 @@ setInterval(function(){
 		}
 	}
 },1000*60)
+
+function call_merchant(){
+	
+}

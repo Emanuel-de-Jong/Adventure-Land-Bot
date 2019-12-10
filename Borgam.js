@@ -12,14 +12,14 @@ setInterval(function(){
 	if(all_begin()) return;
 	
 	if(get_targeted_monster() == null){
-		var newTarget = find_target({playersToProtect:[Elora, Tasha, Character]});
-		if(!newTarget){
+		var new_target = find_target({players_to_protect:[Elora, Tasha, Character]});
+		if(!new_target){
 			if(!is_moving(character)){
 				smart_move(find_farming_area());
 			}
 		}else{
-			change_target(newTarget);
-			attack(newTarget);
+			change_target(new_target);
+			attack(new_target);
 		}
 	}
 },1000/4);
@@ -27,9 +27,9 @@ setInterval(function(){
 setInterval(function(){
 	if(get_targeted_monster() == null) return;
 	if(target.hp / target.max_hp > 0.2 && !(target.target == Elora.name || target.target == Tasha.name)){
-		var newTarget = find_target({playersToProtect:[Elora, Tasha], onlyMonstersTargeting=true});
-		if(!newTarget) return;
-		change_target(newTarget);
+		var new_target = find_target({players_to_protect:[Elora, Tasha], only_monsters_targeting=true});
+		if(!new_target) return;
+		change_target(new_target);
 	}
 },1000*5);
 
@@ -52,38 +52,38 @@ function smart_move_done(){
 }
 
 
-var farmingAreas = G.maps.main.monsters;
-var lastTenAreas = [];
+var farming_areas = G.maps.main.monsters;
+var last_ten_areas = [];
 function find_farming_area(){
 	var newArea;
-	var nearestArea = Number.MAX_SAFE_INTEGER;
-	for(i = 0; i < farmingAreas.length; i++){
-		var area = farmingAreas[i];
-		if(lastTenAreas.includes(area)) continue;
+	var nearest_area = Number.MAX_SAFE_INTEGER;
+	for(i = 0; i < farming_areas.length; i++){
+		var area = farming_areas[i];
+		if(last_ten_areas.includes(area)) continue;
 		distance = parent.distance(character, area);
-		if(distance < nearestArea){
-			nearestArea = distance;
+		if(distance < nearest_area){
+			nearest_area = distance;
 			newArea = area;
 		}
 	}
 	
-	lastTenAreas.unshift(newArea);
-	if(lastTenAreas.length >= 11){
-		lastTenAreas.pop();
+	last_ten_areas.unshift(newArea);
+	if(last_ten_areas.length >= 11){
+		last_ten_areas.pop();
 	}
 	
 	return newArea;
 }
 
 
-function find_target(playersToProtect=[], onlyMonstersTargeting=false){
-	var monstersTargeting = {};
+function find_target(players_to_protect=[], only_monsters_targeting=false){
+	var monsters_targeting = {};
 	var monsters = {};
 	var target;
-	var monsterTargeting = false;
+	var monster_targeting = false;
 	
-	for(i = 0; i < farmingAreas.length; i++){
-		monstersTargeting[farmingAreas[i].name] = [];
+	for(i = 0; i < farming_areas.length; i++){
+		monsters_targeting[farming_areas[i].name] = [];
 	}
 	
 	for(id in parent.entities)
@@ -92,16 +92,16 @@ function find_target(playersToProtect=[], onlyMonstersTargeting=false){
 		
 		if(current.type != "monster" || current.dead) continue;
 		
-		for(i = 0; i < playersToProtect.length; i++){
-			var player = playersToProtect[i];
+		for(i = 0; i < players_to_protect.length; i++){
+			var player = players_to_protect[i];
 			if(current.target = player.name){
-				monsterTargeting = true;
+				monster_targeting = true;
 				if(!can_move_to(current)) continue;
-				monstersTargeting[player.name].push(current);
+				monsters_targeting[player.name].push(current);
 				continue;
 			}
 		}
-		if(!monsterTargeting && !onlyMonstersTargeting){
+		if(!monster_targeting && !only_monsters_targeting){
 			if(current.hp > character.hp || current.hp < character.attack*2) continue;
 			if(current.attack > character.hp/10) continue;
 			if(current.xp < current.hp*1.5) continue;
@@ -111,25 +111,25 @@ function find_target(playersToProtect=[], onlyMonstersTargeting=false){
 		}
 	}
 	
-	for(i = 0; i < playersToProtect.length; i++){
-		var monsters = monstersTargeting[playersToProtect[i].name];
+	for(i = 0; i < players_to_protect.length; i++){
+		var monsters = monsters_targeting[players_to_protect[i].name];
 		if(monsters.length != 0){
-			var highestAttack = 0;
+			var highest_attack = 0;
 			for(j = 0; j < monsters.length; j++){
 				var monster = monsters[j];
-				if(monster.attack > highestAttack){
-					highestAttack = monster.attack;
+				if(monster.attack > highest_attack){
+					highest_attack = monster.attack;
 					target = monster;
 				}
 			}
 			return target;
 		}
 	}
-	if(!onlyMonstersTargeting){
-		var shortestDistance = Number.MAX_SAFE_INTEGER;
+	if(!only_monsters_targeting){
+		var shortest_distance = Number.MAX_SAFE_INTEGER;
 		for(id in monsters){
-			if(monsters[id] < shortestDistance){
-				shortestDistance = monsters[id];
+			if(monsters[id] < shortest_distance){
+				shortest_distance = monsters[id];
 				target = parent.entities[id];
 			}
 		}
