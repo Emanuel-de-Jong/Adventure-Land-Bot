@@ -2,10 +2,10 @@
 
 My take on automating a party for the game: http://adventure.land/
 
-Borgam (warrior/tank/leader)
-Elora (priest/healer)
-Tasha (mage/dps)
-Obert (merchant/brings and takes from party/sells items)
+*Borgam (warrior/tank/leader)
+*Elora (priest/healer)
+*Tasha (mage/dps)
+*Obert (merchant/brings and takes from party/sells items)
 
 start gets run once to spawn the players, put them in a party etc.
 
