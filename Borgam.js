@@ -28,7 +28,7 @@ setInterval(function(){
 	if(!target) return;
 
 	if(target.hp / target.max_hp > 0.2 && !(target.target == Elora.name || target.target == Tasha.name)){
-		var new_target = find_target({players_to_protect:[Elora, Tasha], only_monsters_targeting=true});
+		var new_target = find_target({players_to_protect:[Elora, Tasha], only_monsters_targeting:true});
 		if(!new_target) return;
 		parent.ctarget = new_target;
 	}
@@ -60,6 +60,8 @@ function find_farming_area(){
 	var nearest_area = Number.MAX_SAFE_INTEGER;
 	for(i = 0; i < farming_areas.length; i++){
 		var area = farming_areas[i]["boundary"];
+		if(!area) continue;
+
 		area = [area[0], area[1]];
 		if(last_ten_areas.includes(area)) continue;
 		var dist = distance(parent.character, area);
