@@ -43,7 +43,7 @@ setInterval(function(){
 			heal(player_to_heal);
 		}
 		else{
-			var target = get_target_of(Borgam);
+			var target = get_target_of(Borgam.name);
 			attack(target);
 		}
 	}

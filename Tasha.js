@@ -17,6 +17,6 @@ setInterval(function(){
 		}
 	}
 	
-	var target = get_target_of(Borgam);
+	var target = get_target_of(Borgam.name);
 	attack(target);
 },1000/4);
