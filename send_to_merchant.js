@@ -16,6 +16,7 @@ setInterval(function(){
 	if((character.isize - character.esize) / character.isize < 0.1){
 		for(i = 0; i < character.items.length; i++){
 			var item = character.items[i];
+			if(!item) continue;
 			if(throwaway_items.includes(item.name)){
 				items_to_send.push(item)
 			}
@@ -23,7 +24,7 @@ setInterval(function(){
 		if(items_to_send.length != 0){
 			if(is_in_range(Obert)){
 				for(i = 0; i < items_to_send.length; i++){
-					send_item(Obert, items_to_send[i]);
+					send_item(Obert, i, items_to_send[i]["q"]);
 				}
 				merchant_called = false;
 			}

@@ -1,23 +1,14 @@
-var player_names = ["Borgam", "Elora", "Tasha", "Obert"];
-var index = player_names.indexOf(character.name);
-player_names.splice(index, 1);
 setInterval(function(){
-	for(i = 0; i < player_names.length; i++){
-		var player_name = player_names[i];
+	for(player_name in party){
 		var player = get_player(player_name);
-		if(player){
-			if(player_name == "Borgam") player = Borgam;
-			else if(player_name == "Elora") player = Elora;
-			else if(player_name == "Tasha") player = Tasha;
+		if(!player){
+			var player_from_party = parent.party[player_name];
+			party[player_name] = player_from_party;
+			window[player_name] = player_from_party;
 		}
 		else{
-			if(player_name == "Borgam") player = Borgam;
-			else if(player_name == "Elora") player = Elora;
-			else if(player_name == "Tasha") player = Tasha;
-			
-			var player_in_party = parent.party[player_name];
-			player.x = player_in_party["x"];
-			player.y = player_in_party["y"];
+			party[player_name] = player;
+			window[player_name] = player;
 		}
 	}
 },1000*10);

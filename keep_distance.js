@@ -1,9 +1,11 @@
 function keep_distance(){
+	if(character.moving) return;
+
 	if(character.ctype == "warrior" && character.hp / character.max_hp > 0.25) return;
 	
 	var monster = get_nearest_monster();
 	if(monster){
-		if(distance(character, monster) < 30){
+		if(simple_distance(character, monster) < 30){
 			var new_x = character.x;
 			if(monster.x - character.x < 0) new_x += 5;
 			else new_x -= 5;
@@ -12,7 +14,7 @@ function keep_distance(){
 			if(monster.y - character.y < 0) new_y += 5;
 			else new_y -= 5;
 			
-			xmove(new_x, new_y);
+			parent.move(new_x, new_y);
 		}
 	}
 }
