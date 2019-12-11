@@ -38,7 +38,7 @@ setInterval(function(){
 		}
 		else{
 			var target = get_target_of(Borgam);
-	strike(target);
+			strike(target);
 		}
 	}
 
