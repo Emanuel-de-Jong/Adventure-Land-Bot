@@ -3,6 +3,9 @@
 My take on automating a party for the game: http://adventure.land/
 
 * Borgam (warrior/tank/leader)
+The target he chooses are attacked by Elora and Tasha as well.
+If there is no target, he will move to a new position.
+Elora and Tasha try to stay close to Borgam so they will follow him.
 * Elora (priest/healer)
 * Tasha (mage/dps)
 * Obert (merchant/brings and takes from party/sells items)
