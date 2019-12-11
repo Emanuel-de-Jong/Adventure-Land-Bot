@@ -1,87 +1,85 @@
 //Obert
-var Borgam = get_player("Borgam");
-var Elora = get_player("Elora");
-var Tasha = get_player("Tasha");
-
 load_code("all_begin");
-load_code("attack");
-
+load_code("all_end");
 load_code("all_intervals");
 
 var marketing = false;
 var reason = "";
 setInterval(function(){
-	if(!marketing){
-		if(all_begin()) return;
-		
-		if(reason == "call"){
-			if(!is_in_range(caller)){
-				if(!is_moving(character)){
-					smart_move(caller);
-				}
-			}else{
-				reason = "none"
+	if(marketing) return;
+	if(all_begin()) return;
+	
+	if(reason == "call"){
+		if(!is_in_range(caller)){
+			if(!character.moving){
+				smart_move(caller);
 			}
+		}else{
+			reason = "none";
 		}
-		else if(reason == "player_needs_potion"){
-			if(!is_moving(character)){
-				if(!done_buying){
-					smart_move({to:"potions"},function(done){
-						buy("hpot0", hpot0_needed);
-						buy("hpot1", hpot1_needed);
-						buy("mpot0", mpot0_needed);
-						buy("mpot1", mpot1_needed);
-						done_buying = true;
-					});
-				}
-				else{
-					for(player_name in potions_needed){
-						var potions = potions_needed[player_name];
+	}
+	else if(reason == "player_needs_potion"){
+		if(!is_moving(character)){
+			if(!done_buying){
+				smart_move({to:"potions"},function(done){
+					buy("hpot0", hpot0_needed);
+					buy("hpot1", hpot1_needed);
+					buy("mpot0", mpot0_needed);
+					buy("mpot1", mpot1_needed);
+					done_buying = true;
+				});
+			}
+			else{
+				for(player_name in potions_needed){
+					var potions = potions_needed[player_name];
 
-						if(potions[0] + potions[1] + potions[2] + potions[3] != 0){
-							var player;
-							if(player_name == "Borgam") player = Borgam;
-							else if(player_name == "Elora") player = Elora;
-							else if(player_name == "Tasha") player = Tasha;
-							smart_move({to:player},function(done){
-								send_item(player, 0, potions[0]);
-								send_item(player, 1, potions[1]);
-								send_item(player, 2, potions[2]);
-								send_item(player, 3, potions[3]);
-							});
-							return;
-						}
+					if(potions[0] + potions[1] + potions[2] + potions[3] != 0){
+						var player;
+						if(player_name == "Borgam") player = Borgam;
+						else if(player_name == "Elora") player = Elora;
+						else if(player_name == "Tasha") player = Tasha;
+						smart_move({to:player},function(done){
+							send_item(player, 0, potions[0]);
+							send_item(player, 1, potions[1]);
+							send_item(player, 2, potions[2]);
+							send_item(player, 3, potions[3]);
+						});
+						return;
 					}
-					reason = "none";
 				}
-			}
-		}
-		else if(reason == "none"){
-			if(!is_moving(character)){
-				smart_move("Town");
-			}
-			else if(is_in_range("Town")){
-				parent.socket.emit("merchant", {num: 4});
-				marketing = true;
+				reason = "none";
 			}
 		}
 	}
+	else if(reason == "none"){
+		start_marketing();
+	}
+
+	all_end();
 },1000/4);
 
 
-var caller = "";
+var caller;
 function on_cm(name, data){
-	if(!player_names.includes(name)) return;
+	if(!(name in players)) return;
 	if(data == "call"){
 		stop_marketing();
 		reason = data;
-		if(name == "Borgam") caller = Borgam;
-		else if(name == "Elora") caller = Elora;
-		else if(name == "Tasha") caller = Tasha;
+		caller = players[name];
 	}
 }
 
+function stop_marketing(){
+	parent.socket.emit("merchant", {close:1});
+	marketing = false;
+}
 
+function start_marketing(){
+	smart_move({to:"main"},function(done){
+		parent.socket.emit("merchant", {num: 4});
+		marketing = true;
+	});
+}
 
 
 
@@ -176,7 +174,3 @@ setInterval(function(){
 
 
 
-function stop_marketing(){
-	parent.socket.emit("merchant", {close:1});
-	marketing = false;
-}
