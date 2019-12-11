@@ -6,6 +6,8 @@ var Tasha = get_player("Tasha");
 load_code("all_begin");
 load_code("attack");
 
+load_code("all_intervals");
+
 var marketing = false;
 var reason = "";
 setInterval(function(){
