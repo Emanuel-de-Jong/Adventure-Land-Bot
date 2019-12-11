@@ -5,6 +5,7 @@ load_code("all_intervals");
 
 var marketing = false;
 var reason = "";
+var potions_bought = false;
 setInterval(function(){
 	if(marketing) return;
 	if(all_begin()) return;
@@ -19,34 +20,41 @@ setInterval(function(){
 		}
 	}
 	else if(reason == "player_needs_potion"){
-		if(!is_moving(character)){
-			if(!done_buying){
-				smart_move({to:"potions"},function(done){
-					buy("hpot0", hpot0_needed);
-					buy("hpot1", hpot1_needed);
-					buy("mpot0", mpot0_needed);
-					buy("mpot1", mpot1_needed);
-					done_buying = true;
+		if(!character.moving){
+			if(!potions_bought){
+				smart_move({to:"potions"}, function(done){
+					for(potion_type in potions_needed_combined){
+						//needs a gold check
+						buy(potion_type, potions_needed_combined[potion_type]);
+					}
+					potions_bought = true;
 				});
 			}
 			else{
 				for(player_name in potions_needed){
 					var potions = potions_needed[player_name];
 
-					if(potions[0] + potions[1] + potions[2] + potions[3] != 0){
-						var player;
-						if(player_name == "Borgam") player = Borgam;
-						else if(player_name == "Elora") player = Elora;
-						else if(player_name == "Tasha") player = Tasha;
-						smart_move({to:player},function(done){
-							send_item(player, 0, potions[0]);
-							send_item(player, 1, potions[1]);
-							send_item(player, 2, potions[2]);
-							send_item(player, 3, potions[3]);
+					var send_player_potions = false;
+					for(potion_type in potions){
+						if(potions[potion_type] > 0){
+							send_player_potions = true;
+						}
+					}
+
+					if(send_player_potions){
+						var player = players[player_name];
+						smart_move({to:player}, function(done){
+							for(potion_type in potions){
+								if(potion_type == "hpot0") send_item(player, 0, potions[potion_type]);
+								else if(potion_type == "hpot1") send_item(player, 1, potions[potion_type]);
+								else if(potion_type == "mpot0") send_item(player, 2, potions[potion_type]);
+								else if(potion_type == "mpot1") send_item(player, 3, potions[potion_type]);
+							}
 						});
 						return;
 					}
 				}
+				potions_bought = false;
 				reason = "none";
 			}
 		}
@@ -84,93 +92,81 @@ function start_marketing(){
 
 
 var potions_needed = {};
-for(i = 0; i < player_names.length; i++){
-	potions_needed[player_names[i]] = [0, 0, 0, 0];
+for(player_name in players){
+	potions_needed[player_name] = {
+		"hpot0": 0,
+		"hpot1": 0,
+		"mpot0": 0,
+		"mpot1": 0
+	};
 }
+potions_needed_combined = {
+	"hpot0": 0,
+	"hpot1": 0,
+	"mpot0": 0,
+	"mpot1": 0
+};
 
-var min_hp_potions = 150;
+var min_hpot = 150;
+var hpot_overshoot = 150;
 var hp_before_potion_type_change = 1500;
-var hp_potion_overshoot = 150;
 
-var mini_mp_potions = 150;
+var min_mpot = 150;
+var mpot_overshoot = 150;
 var mp_before_potion_type_change = 1000;
-var mp_potion_overshoot = 150;
 
-var hpot0_needed = 0;
-var hpot1_needed = 0;
-var mpot0_needed = 0;
-var mpot1_needed = 0;
-
-var done_buying;
 setInterval(function(){
 	if(reason == "player_needs_potion") return;
-	var player_needs_potion = false;
-	for(i = 0; i < player_names.length; i++){
-		var player;
-		var player_name = player_names[i];
-		if(player_name == "Borgam") player = Borgam;
-		else if(player_name == "Elora") player = Elora;
-		else if(player_name == "Tasha") player = Tasha;
 
-		var hp_potion_type;
-		if(player.max_hp < hp_before_potion_type_change) hp_potion_type = "hpot0";
-		else hp_potion_type = "hpot1";
+	var any_players_needs_potion = false;
+	for(player_name in players){
+		var player = players[player_name];
 
-		var mp_potion_type;
-		if(player.max_mp < mp_before_potion_type_change) mp_potion_type = "mpot0";
-		else mp_potion_type = "mpot1";
+		var hpot_type;
+		if(player.max_hp < hp_before_potion_type_change) hpot_type = "hpot0";
+		else hpot_type = "hpot1";
 
-		var hp_potions_needed;
-		var mp_potions_needed;
-		for(j = 0; j < player.items.length; j++){
-			var item = player.items[j];
+		var mpot_type;
+		if(player.max_mp < mp_before_potion_type_change) mpot_type = "mpot0";
+		else mpot_type = "mpot1";
+
+		var hpot_needed;
+		var mpot_needed;
+		for(i = 0; i < player.items.length; i++){
+			var item = player.items[i];
+
 			if(item == null) continue;
-			if(item["name"] == hp_potion_type){
-				hp_potions_needed = min_hp_potions - item["q"];
-				hp_potions_needed += hp_potion_overshoot;
 
-				var test = hp_potion_type + "_needed";
-				if(test == "hpot0_needed") hpot0_needed += hp_potions_needed;
-				else if(test == "hpot1_needed") hpot1_needed += hp_potions_needed;
-			}
-			if(item["name"] == mp_potion_type){
-				mp_potions_needed = min_mp_potions - item["q"];
-				mp_potions_needed += mp_potion_overshoot;
+			if(item["name"] == hpot_type){
+				hpot_needed = min_hpot - item["q"];
 
-				var test = mp_potion_type + "_needed";
-				if(test == "mpot0_needed") mpot0_needed += mp_potions_needed;
-				else if(test == "mpot1_needed") mpot1_needed += mp_potions_needed;
-			}
-		}
+				if(hpot_needed > 0){
+					any_players_needs_potion = true;
 
-		if(!hp_potions_needed || hp_potions_needed > 0){
-			player_needs_potion = true;
+					hpot_needed += hpot_overshoot;
+					potions_needed[player_name][hpot_type] = hpot_needed;
+					potions_needed_combined[hpot_type] += hpot_needed;
+				}
+			}
+			else if(item["name"] == mpot_type){
+				mpot_needed = min_mpot - item["q"];
 
-			if(hp_potion_type == "hpot0"){
-				potions_needed[player.name][0] = hp_potion_type;
-			}
-			else{
-				potions_needed[player.name][1] = hp_potion_type;
-			}
-		}
-		if(!mp_potions_needed || mp_potions_needed > 0){
-			player_needs_potion = true;
+				if(hpot_needed > 0){
+					any_players_needs_potion = true;
 
-			if(mp_potion_type == "mpot0"){
-				potions_needed[player.name][2] = mp_potion_type;
-			}
-			else{
-				potions_needed[player.name][3] = hmp_potion_type;
+					mpot_needed += mpot_overshoot;
+					potions_needed[player_name][mpot_type] = mpot_needed;
+					potions_needed_combined[mpot_type] += mpot_needed;
+				}
 			}
 		}
 	}
 
-	if(player_needs_potion){
-		done_buying = false;
+	if(any_players_needs_potion){
 		stop_marketing();
 		reason = "player_needs_potion";
 	}
-},1000*120);
+},1000*180);
 
 
 
