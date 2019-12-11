@@ -82,8 +82,8 @@ function find_target(players_to_protect=[], only_monsters_targeting=false){
 	var target;
 	var monster_targeting = false;
 	
-	for(i = 0; i < farming_areas.length; i++){
-		monsters_targeting[farming_areas[i].name] = [];
+	for(i = 0; i < players_to_protect.length; i++){
+		monsters_targeting[players_to_protect[i].name] = [];
 	}
 	
 	for(id in parent.entities)
@@ -107,7 +107,7 @@ function find_target(players_to_protect=[], only_monsters_targeting=false){
 			if(current.xp < current.hp*1.5) continue;
 			if(!can_move_to(current)) continue;
 
-			monsters[id] = parent.distance(character, current);
+			monsters[id] = distance(character, current);
 		}
 	}
 	

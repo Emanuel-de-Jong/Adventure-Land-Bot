@@ -39,7 +39,10 @@ setInterval(function(){
 						var potions = potions_needed[player_name];
 
 						if(potions[0] + potions[1] + potions[2] + potions[3] != 0){
-							var player = window(player_name);
+							var player;
+							if(player_name == "Borgam") player = Borgam;
+							else if(player_name == "Elora") player = Elora;
+							else if(player_name == "Tasha") player = Tasha;
 							smart_move({to:player},function(done){
 								send_item(player, 0, potions[0]);
 								send_item(player, 1, potions[1]);
@@ -72,7 +75,9 @@ function on_cm(name, data){
 	if(data == "call"){
 		stop_marketing();
 		reason = data;
-		caller = window(name);
+		if(name == "Borgam") caller = Borgam;
+		else if(name == "Elora") caller = Elora;
+		else if(name == "Tasha") caller = Tasha;
 	}
 }
 
@@ -103,7 +108,19 @@ setInterval(function(){
 	if(reason == "player_needs_potion") return;
 	var player_needs_potion = false;
 	for(i = 0; i < player_names.length; i++){
-		var player = window(player_names[i]);
+		var player;
+		var player_name = player_names[i];
+		if(player_name == "Borgam") player = Borgam;
+		else if(player_name == "Elora") player = Elora;
+		else if(player_name == "Tasha") player = Tasha;
+
+		var hp_potion_type;
+		if(player.max_hp < hp_before_potion_type_change) hp_potion_type = "hpot0";
+		else hp_potion_type = "hpot1";
+
+		var mp_potion_type;
+		if(player.max_mp < mp_before_potion_type_change) mp_potion_type = "mpot0";
+		else mp_potion_type = "mpot1";
 
 		var hp_potions_needed;
 		var mp_potions_needed;
@@ -114,22 +131,22 @@ setInterval(function(){
 				hp_potions_needed = min_hp_potions - item["q"];
 				hp_potions_needed += hp_potion_overshoot;
 
-				window(hp_potion_type + "_needed") += hp_potions_needed;
+				var test = hp_potion_type + "_needed";
+				if(test == "hpot0_needed") hpot0_needed += hp_potions_needed;
+				else if(test == "hpot1_needed") hpot1_needed += hp_potions_needed;
 			}
 			if(item["name"] == mp_potion_type){
 				mp_potions_needed = min_mp_potions - item["q"];
 				mp_potions_needed += mp_potion_overshoot;
 
-				window(mp_potion_type + "_needed") += mp_potions_needed;
+				var test = mp_potion_type + "_needed";
+				if(test == "mpot0_needed") mpot0_needed += mp_potions_needed;
+				else if(test == "mpot1_needed") mpot1_needed += mp_potions_needed;
 			}
 		}
 
 		if(!hp_potions_needed || hp_potions_needed > 0){
 			player_needs_potion = true;
-
-			var hp_potion_type;
-			if(player.max_hp < hp_before_potion_type_change) hp_potion_type = "hpot0";
-			else hp_potion_type = "hpot1";
 
 			if(hp_potion_type == "hpot0"){
 				potions_needed[player.name][0] = hp_potion_type;
@@ -140,10 +157,6 @@ setInterval(function(){
 		}
 		if(!mp_potions_needed || mp_potions_needed > 0){
 			player_needs_potion = true;
-
-			var mp_potion_type;
-			if(player.max_mp < mp_before_potion_type_change) mp_potion_type = "mpot0";
-			else mp_potion_type = "mpot1";
 
 			if(mp_potion_type == "mpot0"){
 				potions_needed[player.name][2] = mp_potion_type;
