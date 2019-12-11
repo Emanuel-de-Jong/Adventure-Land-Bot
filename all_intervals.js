@@ -1,5 +1,5 @@
 //all_intervals
-if(parent.Character.ctype != "merchant"){
+if(parent.character.ctype != "merchant"){
     load_code("send_to_merchant");
     load_code("loot");
 }

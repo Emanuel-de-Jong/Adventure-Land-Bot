@@ -9,7 +9,7 @@ function strike(target=parent.ctarget){
 	}
 	else
 	{
-		if(!character.moving){
+		if(!is_moving(parent.character)){
 			var character = parent.character;
 
 			xmove(

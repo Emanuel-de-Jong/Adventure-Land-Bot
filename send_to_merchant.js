@@ -2,7 +2,7 @@
 var throwaway_items = [];
 var merchant_called = true;
 setInterval(function(){
-	if(charcater.gold > character.max_hp * 10){
+	if(character.gold > character.max_hp * 10){
 		if(is_in_range(Obert)){
 			parent.socket.emit("send", {name:Obert, gold:character.gold});
 			merchant_called = false;

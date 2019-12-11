@@ -1,7 +1,7 @@
 //loot
 setInterval(function(){
 	var loot_count = 0;
-	for(var id in parent.chests)
+	for(id in parent.chests)
 	{
 		var chest = parent.chests[id];
 		if(chest.items > parent.character.esize) continue;

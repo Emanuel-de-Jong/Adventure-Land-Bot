@@ -4,7 +4,7 @@ load_code("all_end");
 load_code("all_intervals");
 
 var marketing = false;
-var reason = "";
+var reason = "none";
 var potions_bought = false;
 setInterval(function(){
 	if(marketing) return;
@@ -12,7 +12,7 @@ setInterval(function(){
 	
 	if(reason == "call"){
 		if(!is_in_range(caller)){
-			if(!character.moving){
+			if(!is_moving(character)){
 				smart_move(caller);
 			}
 		}else{
@@ -20,7 +20,7 @@ setInterval(function(){
 		}
 	}
 	else if(reason == "player_needs_potion"){
-		if(!character.moving){
+		if(!is_moving(character)){
 			if(!potions_bought){
 				smart_move({to:"potions"}, function(done){
 					for(potion_type in potions_needed_combined){
