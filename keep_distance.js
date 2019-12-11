@@ -1,5 +1,6 @@
 //keep_distance
 function keep_distance(){
+	var character = parent.character;
 	if(character.moving) return;
 
 	if(character.ctype == "warrior" && character.hp / character.max_hp > 0.25) return;

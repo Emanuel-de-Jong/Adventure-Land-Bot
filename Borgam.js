@@ -39,9 +39,9 @@ var retreating = false;
 setInterval(function(){
 	if(!retreating){
 		for(id in parent.entities){
-			var current = parent.entities[id];
-			if(current.target == character.name || current.target == Elora.name || current.target == Tasha.name){
-				if(current.attack > character.hp/3 || current.hp > character.hp*3){
+			var ent = parent.entities[id];
+			if(ent.target == character.name || ent.target == Elora.name || ent.target == Tasha.name){
+				if(ent.attack > character.hp/3 || ent.hp > character.hp*3){
 					retreating = true;
 					smart_move({to:find_farming_area()}, function(done){
 						retreating = false;
@@ -62,7 +62,7 @@ function find_farming_area(){
 		var area = farming_areas[i]["boundary"];
 		area = [area[0], area[1]];
 		if(last_ten_areas.includes(area)) continue;
-		var dist = distance(character, area);
+		var dist = distance(parent.character, area);
 		if(dist < nearest_area){
 			nearest_area = dist;
 			new_area = area;
@@ -79,6 +79,7 @@ function find_farming_area(){
 
 
 function find_target(players_to_protect=[], only_monsters_targeting=false){
+	var character = parent.character;
 	var monsters_targeting = {};
 	var monsters = {};
 	var target;
@@ -90,26 +91,26 @@ function find_target(players_to_protect=[], only_monsters_targeting=false){
 	
 	for(id in parent.entities)
 	{
-		var current = parent.entities[id];
+		var ent = parent.entities[id];
 		
-		if(current.type != "monster" || current.dead) continue;
+		if(ent.type != "monster" || ent.dead) continue;
 		
 		for(i = 0; i < players_to_protect.length; i++){
 			var player = players_to_protect[i];
-			if(current.target == player.name){
+			if(ent.target == player.name){
 				monster_targeting = true;
-				if(!can_move_to(current)) continue;
-				monsters_targeting[player.name].push(current);
+				if(!can_move_to(ent)) continue;
+				monsters_targeting[player.name].push(ent);
 				continue;
 			}
 		}
 		if(!monster_targeting && !only_monsters_targeting){
-			if(current.hp*1.5 > character.hp || current.hp < character.attack*2) continue;
-			if(current.attack > character.hp/10) continue;
-			if(current.xp < current.hp*1.5) continue;
-			if(!can_move_to(current)) continue;
+			if(ent.hp*1.5 > character.hp || ent.hp < character.attack*2) continue;
+			if(ent.attack > character.hp/10) continue;
+			if(ent.xp < ent.hp*1.5) continue;
+			if(!can_move_to(ent)) continue;
 
-			monsters[id] = distance(character, current);
+			monsters[id] = distance(character, ent);
 		}
 	}
 	
