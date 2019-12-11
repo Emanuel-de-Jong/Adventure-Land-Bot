@@ -19,6 +19,8 @@ setInterval(function(){
 	}
 
 	strike(target);
+
+	all_end();
 },1000/4);
 
 setInterval(function(){
@@ -94,7 +96,7 @@ function find_target(players_to_protect=[], only_monsters_targeting=false){
 		
 		for(i = 0; i < players_to_protect.length; i++){
 			var player = players_to_protect[i];
-			if(current.target = player.name){
+			if(current.target == player.name){
 				monster_targeting = true;
 				if(!can_move_to(current)) continue;
 				monsters_targeting[player.name].push(current);
@@ -102,7 +104,7 @@ function find_target(players_to_protect=[], only_monsters_targeting=false){
 			}
 		}
 		if(!monster_targeting && !only_monsters_targeting){
-			if(current.hp > character.hp || current.hp < character.attack*2) continue;
+			if(current.hp*1.5 > character.hp || current.hp < character.attack*2) continue;
 			if(current.attack > character.hp/10) continue;
 			if(current.xp < current.hp*1.5) continue;
 			if(!can_move_to(current)) continue;

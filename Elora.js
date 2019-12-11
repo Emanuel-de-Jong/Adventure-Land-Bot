@@ -1,33 +1,27 @@
 //Elora
-var Borgam = get_player("Borgam");
-var Tasha = get_player("Tasha");
-var Obert = get_player("Obert");
-
 load_code("all_begin");
-load_code("attack");
-
+load_code("all_end");
 load_code("all_intervals");
-
-var players = [Borgam, character, Tasha];
+load_code("strike");
 setInterval(function(){
 	if(all_begin()) return;
 	
 	if(!is_in_range(Borgam)){
-		if(!is_moving(character)){
+		if(!CharacterData.moving){
 			smart_move(Borgam);
 		}
 	}
 	
-	if(can_heal(character)){
+	if(Date() >= parent.next_skill["attack"]){
 		var players_to_heal = [];
-		for(i = 0; i < players.length; i++){
-			var player = players[i];
+		for(player_name in players){
+			var player = players[player_name];
 			if(player.max_hp - player.hp >= character.attack || player.hp / player.max_hp < 0.4){
 				players_to_heal.push(player);
 			}
 		}
 		if(players_to_heal.length == 1){
-			heal(players_to_heal[0]);
+			parent.player_heal.call(players_to_heal[0],null,true);
 		}
 		else if(players_to_heal.length > 1){
 			var player_to_heal;
@@ -40,11 +34,13 @@ setInterval(function(){
 					least_hp = player_health;
 				}
 			}
-			heal(player_to_heal);
+			parent.player_heal.call(player_to_heal,null,true);
 		}
 		else{
-			var target = get_target_of(Borgam.name);
-			attack(target);
+			var target = get_target_of(Borgam);
+	strike(target);
 		}
 	}
+
+	all_end();
 },1000/4);
