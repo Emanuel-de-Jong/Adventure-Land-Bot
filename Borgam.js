@@ -1,37 +1,37 @@
 //Borgam
-var Elora = get_player("Elora");
-var Tasha = get_player("Tasha");
-var Obert = get_player("Obert");
-
 load_code("all_begin");
-load_code("attack");
-
+load_code("all_end");
 load_code("all_intervals");
-
+load_code("strike");
 setInterval(function(){
 	if(all_begin()) return;
 	
-	if(get_targeted_monster() == null){
-		var new_target = find_target({players_to_protect:[Elora, Tasha, Character]});
-		if(!new_target){
-			if(!is_moving(character)){
+	var target = get_targeted_monster();
+	if(!target){
+		var target = find_target({players_to_protect:[Elora, Tasha, Character]});
+		if(!target){
+			if(!character.moving){
 				smart_move(find_farming_area());
 			}
 		}else{
-			change_target(new_target);
-			attack(new_target);
+			parent.ctarget = target;
 		}
 	}
+
+	strike(target);
 },1000/4);
 
 setInterval(function(){
-	if(get_targeted_monster() == null) return;
+	var target = get_targeted_monster();
+	if(!target) return;
+
 	if(target.hp / target.max_hp > 0.2 && !(target.target == Elora.name || target.target == Tasha.name)){
 		var new_target = find_target({players_to_protect:[Elora, Tasha], only_monsters_targeting=true});
 		if(!new_target) return;
-		change_target(new_target);
+		parent.ctarget = new_target;
 	}
 },1000*5);
+
 
 var retreating = false;
 setInterval(function(){
@@ -41,38 +41,38 @@ setInterval(function(){
 			if(current.target == character.name || current.target == Elora.name || current.target == Tasha.name){
 				if(current.attack > character.hp/3 || current.hp > character.hp*3){
 					retreating = true;
-					smart_move(find_farming_area(), smart_move_done);
+					smart_move({to:find_farming_area()}, function(done){
+						retreating = false;
+					});
 				}
 			}
 		}
 	}
 },1000*5);
-function smart_move_done(){
-	retreating = false;
-}
 
 
 var farming_areas = G.maps.main.monsters;
 var last_ten_areas = [];
 function find_farming_area(){
-	var newArea;
+	var new_area;
 	var nearest_area = Number.MAX_SAFE_INTEGER;
-	for(thing in farming_areas){
-		var area = farming_areas[thing]["boundary"];
+	for(i = 0; i < farming_areas.length; i++){
+		var area = farming_areas[i]["boundary"];
+		area = [area[0], area[1]];
 		if(last_ten_areas.includes(area)) continue;
 		var dist = distance(character, area);
 		if(dist < nearest_area){
 			nearest_area = dist;
-			newArea = area;
+			new_area = area;
 		}
 	}
 	
-	last_ten_areas.unshift(newArea);
+	last_ten_areas.unshift(new_area);
 	if(last_ten_areas.length >= 11){
 		last_ten_areas.pop();
 	}
 	
-	return newArea;
+	return new_area;
 }
 
 

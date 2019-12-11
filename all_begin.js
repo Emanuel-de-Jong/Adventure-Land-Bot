@@ -1,12 +1,13 @@
-var party = {
+//all_begin
+var players = {
 	"Borgam": get_player("Borgam"),
 	"Elora": get_player("Elora"),
 	"Tasha": get_player("Tasha"),
 	"Obert": get_player("Obert")
 }
-delete party[character.name];
-for(player_name in party){
-	window[player_name] = party[player_name];
+delete players[character.name];
+for(player_name in players){
+	window[player_name] = players[player_name];
 }
 
 load_code("potions");

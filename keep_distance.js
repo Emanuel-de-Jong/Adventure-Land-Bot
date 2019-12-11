@@ -1,3 +1,4 @@
+//keep_distance
 function keep_distance(){
 	if(character.moving) return;
 

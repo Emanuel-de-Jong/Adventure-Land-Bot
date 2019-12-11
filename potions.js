@@ -1,3 +1,4 @@
+//potions
 function potions(){
 	if(character.hp/character.max_hp < 0.35){
 		if(Date.now() >= parent.next_skill["use_hp"]){

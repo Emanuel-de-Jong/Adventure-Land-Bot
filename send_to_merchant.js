@@ -1,3 +1,4 @@
+//send_to_merchant
 var throwaway_items = [];
 var merchant_called = true;
 setInterval(function(){

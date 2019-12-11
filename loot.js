@@ -1,3 +1,4 @@
+//loot
 setInterval(function(){
 	for(var id in parent.chests)
 	{
