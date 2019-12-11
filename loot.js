@@ -4,7 +4,7 @@ setInterval(function(){
 	for(id in parent.chests)
 	{
 		var chest = parent.chests[id];
-		if(chest.items > parent.character.esize) continue;
+		if(chest.items > character.esize) continue;
 		
 		parent.open_chest(id);
 		loot_count++;

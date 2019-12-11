@@ -5,7 +5,7 @@ var players = {
 	"Tasha": get_player("Tasha"),
 	"Obert": get_player("Obert")
 }
-delete players[parent.character.name];
+delete players[character.name];
 for(player_name in players){
 	window[player_name] = players[player_name];
 }
@@ -14,7 +14,7 @@ load_code("potions");
 load_code("keep_distance");
 
 function all_begin(){
-	if(parent.character.rip){
+	if(character.rip){
 		setTimeout("respawn", 15000);
 		return true;
 	}

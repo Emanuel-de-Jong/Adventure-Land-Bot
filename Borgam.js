@@ -64,7 +64,7 @@ function find_farming_area(){
 
 		area = [area[0], area[1]];
 		if(last_ten_areas.includes(area)) continue;
-		var dist = distance(parent.character, area);
+		var dist = distance(character, area);
 		if(dist < nearest_area){
 			nearest_area = dist;
 			new_area = area;
@@ -81,7 +81,6 @@ function find_farming_area(){
 
 
 function find_target(players_to_protect=[], only_monsters_targeting=false){
-	var character = parent.character;
 	var monsters_targeting = {};
 	var monsters = {};
 	var target;
