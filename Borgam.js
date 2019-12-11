@@ -10,7 +10,7 @@ setInterval(function(){
 	if(!target){
 		var target = find_target({players_to_protect:[Elora, Tasha, character]});
 		if(!target){
-			if(!is_moving(character)){
+			if(!character.moving){
 				smart_move(find_farming_area());
 			}
 		}else{

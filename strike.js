@@ -9,7 +9,7 @@ function strike(target=parent.ctarget){
 	}
 	else
 	{
-		if(!is_moving(character)){
+		if(!character.moving){
 			xmove(
 				character.x + (target.x - character.x) / 2,
 				character.y + (target.y - character.y) / 2

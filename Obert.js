@@ -12,7 +12,7 @@ setInterval(function(){
 	
 	if(reason == "call"){
 		if(!is_in_range(caller)){
-			if(!is_moving(character)){
+			if(!character.moving){
 				smart_move(caller);
 			}
 		}else{
@@ -20,7 +20,7 @@ setInterval(function(){
 		}
 	}
 	else if(reason == "player_needs_potion"){
-		if(!is_moving(character)){
+		if(!character.moving){
 			if(!potions_bought){
 				smart_move({to:"potions"}, function(done){
 					for(potion_type in potions_needed_combined){
