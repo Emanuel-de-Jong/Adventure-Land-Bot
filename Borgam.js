@@ -57,12 +57,12 @@ var last_ten_areas = [];
 function find_farming_area(){
 	var newArea;
 	var nearest_area = Number.MAX_SAFE_INTEGER;
-	for(i = 0; i < farming_areas.length; i++){
-		var area = farming_areas[i];
+	for(thing in farming_areas){
+		var area = farming_areas[thing]["boundary"];
 		if(last_ten_areas.includes(area)) continue;
-		distance = parent.distance(character, area);
-		if(distance < nearest_area){
-			nearest_area = distance;
+		var dist = distance(character, area);
+		if(dist < nearest_area){
+			nearest_area = dist;
 			newArea = area;
 		}
 	}
