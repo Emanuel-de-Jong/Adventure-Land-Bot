@@ -1,6 +1,6 @@
 //keep_distance
 function keep_distance(){
-	if(character.moving) return;
+	if(is_moving(character)) return;
 
 	if(character.ctype == "warrior" && character.hp / character.max_hp > 0.25) return;
 	

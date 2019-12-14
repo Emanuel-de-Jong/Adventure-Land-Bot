@@ -6,7 +6,7 @@ load_code("strike");
 setInterval(function(){
 	if(all_begin()) return;
 	
-	if(!character.moving){
+	if(!is_moving(character)){
 		if(!is_in_range(Borgam, "attack")){
 			smart_move(Borgam);
 		}

@@ -7,7 +7,7 @@ setInterval(function(){
 	if(all_begin()) return;
 	
 	var target = get_targeted_monster();
-	if(!target && !character.moving){
+	if(!target && !is_moving(character)){
 		var target = find_target({players_to_protect:[Elora, Tasha, character]});
 		if(!target){
 			var area = find_farming_area();

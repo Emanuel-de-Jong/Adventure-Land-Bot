@@ -9,7 +9,7 @@ function strike(target=parent.ctarget){
 	}
 	else
 	{
-		if(!character.moving){
+		if(!is_moving(character)){
 			if(can_move({x:target.real_x, y:target.real_y})){
 				move(
 					character.x + (target.x - character.x) / 2,
