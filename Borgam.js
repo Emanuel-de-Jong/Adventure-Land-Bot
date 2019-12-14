@@ -10,7 +10,8 @@ setInterval(function(){
 	if(!target && !character.moving){
 		var target = find_target({players_to_protect:[Elora, Tasha, character]});
 		if(!target){
-			smart_move(find_farming_area());
+			var area = find_farming_area();
+			smart_move({x:area[0], y:area[1]});
 		}else{
 			parent.ctarget = target;
 		}
@@ -42,7 +43,8 @@ setInterval(function(){
 			if(ent.target == character.name || ent.target == Elora.name || ent.target == Tasha.name){
 				if(ent.attack > character.hp/3 || ent.hp > character.hp*3){
 					retreating = true;
-					smart_move({to:find_farming_area()}, function(done){
+					var area = find_farming_area();
+					smart_move({x:area[0], y:area[1]}, function(done){
 						retreating = false;
 					});
 				}
