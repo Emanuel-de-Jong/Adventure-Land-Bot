@@ -7,12 +7,10 @@ setInterval(function(){
 	if(all_begin()) return;
 	
 	var target = get_targeted_monster();
-	if(!target){
+	if(!target && !character.moving){
 		var target = find_target({players_to_protect:[Elora, Tasha, character]});
 		if(!target){
-			if(!character.moving){
-				smart_move(find_farming_area());
-			}
+			smart_move(find_farming_area());
 		}else{
 			parent.ctarget = target;
 		}
@@ -40,6 +38,7 @@ setInterval(function(){
 	if(!retreating){
 		for(id in parent.entities){
 			var ent = parent.entities[id];
+			if(ent.type != "monster") return;
 			if(ent.target == character.name || ent.target == Elora.name || ent.target == Tasha.name){
 				if(ent.attack > character.hp/3 || ent.hp > character.hp*3){
 					retreating = true;

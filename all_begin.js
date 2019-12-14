@@ -15,7 +15,7 @@ load_code("keep_distance");
 
 function all_begin(){
 	if(character.rip){
-		setTimeout("respawn", 15000);
+		setTimeout(respawn, 15000);
 		return true;
 	}
 	potions();

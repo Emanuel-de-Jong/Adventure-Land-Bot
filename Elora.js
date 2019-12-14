@@ -6,22 +6,26 @@ load_code("strike");
 setInterval(function(){
 	if(all_begin()) return;
 	
-	if(!is_in_range(Borgam, "attack")){
+	if(!is_in_range(Borgam, "Attack")){
 		if(!character.moving){
 			smart_move(Borgam);
 		}
 	}
 	
-	if(Date() >= parent.next_skill["attack"]){
+	if(new Date() >= parent.next_skill["attack"]){
+		var players_and_char = players;
+		players_and_char[character.name] = character;
+
 		var players_to_heal = [];
-		for(player_name in players){
-			var player = players[player_name];
+		for(player_name in players_and_char){
+			var player = players_and_char[player_name];
 			if(player.max_hp - player.hp >= character.attack || player.hp / player.max_hp < 0.4){
 				players_to_heal.push(player);
 			}
 		}
+		
 		if(players_to_heal.length == 1){
-			parent.player_heal.call(players_to_heal[0],null,true);
+			parent.player_heal.call(players_to_heal[0], null, true);
 		}
 		else if(players_to_heal.length > 1){
 			var player_to_heal;
