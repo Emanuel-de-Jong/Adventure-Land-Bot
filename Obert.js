@@ -69,8 +69,8 @@ setInterval(function(){
 
 
 var caller;
-function on_cm(name, data){
-	if(!(name in players)) return;
+on_cm_functions.push(on_cm_obert);
+function on_cm_obert(name, data){
 	if(data == "call"){
 		stop_marketing();
 		reason = data;

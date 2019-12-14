@@ -23,3 +23,11 @@ function all_begin(){
 	
 	return false
 }
+
+var on_cm_functions = [];
+function on_cm(name, data){
+	if(!(name in players)) return;
+	for(i = 0; i < on_cm_functions.length; i++){
+		on_cm_functions[i](name, data);
+	}
+}

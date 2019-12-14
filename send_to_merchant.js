@@ -28,8 +28,8 @@ function call_merchant(){
 	merchant_called = true;
 }
 
-function on_cm(name, data){
-	if(!(name in players)) return;
+on_cm_functions.push(on_cm_send_to_merchant);
+function on_cm_send_to_merchant(name, data){
 	if(name == "Obert" && data == "in_range"){
 		merchant_called = false;
 
