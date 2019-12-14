@@ -11,7 +11,7 @@ setInterval(function(){
 	if(all_begin()) return;
 	
 	if(reason == "call"){
-		if(!is_in_range(caller)){
+		if(!is_in_range(caller, "Attack")){
 			if(!character.moving){
 				smart_move(caller);
 			}
