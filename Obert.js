@@ -16,6 +16,7 @@ setInterval(function(){
 				smart_move(caller);
 			}
 		}else{
+			send_cm(caller.name, "in_range")
 			reason = "none";
 		}
 	}
