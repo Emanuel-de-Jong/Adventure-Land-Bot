@@ -1,7 +1,7 @@
 //strike
 function strike(target=parent.ctarget){
 	if(!target) return;
-	if(is_in_range(target, "Attack"))
+	if(is_in_range(target, "attack"))
 	{
 		if(new Date() >= parent.next_skill["attack"]){
 			parent.socket.emit("attack",{id:target.id});
