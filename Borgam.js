@@ -63,7 +63,10 @@ function find_farming_area(){
 		var area = farming_areas[i]["boundary"];
 		if(!area) continue;
 
-		area = [area[0], area[1]];
+		var area_x = area[0] + ((area[2] - area[0]) / 2);
+		var area_y = area[1] + ((area[3] - area[1]) / 2);
+		area = [area_x, area_y];
+
 		if(last_ten_areas.includes(area)) continue;
 		var dist = distance(character, area);
 		if(dist < nearest_area){

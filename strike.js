@@ -10,10 +10,15 @@ function strike(target=parent.ctarget){
 	else
 	{
 		if(!character.moving){
-			xmove(
-				character.x + (target.x - character.x) / 2,
-				character.y + (target.y - character.y) / 2
-			);
+			if(can_move({x:target.real_x, y:target.real_y})){
+				move(
+					character.x + (target.x - character.x) / 2,
+					character.y + (target.y - character.y) / 2
+				);
+			}else{
+				smart_move(target);
+			}
+			
 		}
 	}
 }
