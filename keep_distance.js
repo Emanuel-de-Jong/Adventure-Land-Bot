@@ -6,7 +6,7 @@ function keep_distance(){
 	
 	var monster = get_nearest_monster();
 	if(monster){
-		if(simple_distance(character, monster) < 30){
+		if(simple_distance(character, monster) < 50){
 			var new_x = character.x;
 			if(monster.x - character.x < 0) new_x += 5;
 			else new_x -= 5;
