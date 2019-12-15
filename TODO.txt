@@ -1,3 +1,4 @@
 skills
 obert depositing and selling
 make the start script
+specifiek monster type als target
