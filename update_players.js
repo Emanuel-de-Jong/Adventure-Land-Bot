@@ -17,7 +17,7 @@ function on_cm_update_players(name, data){
 	if(data == "get_player"){
 		send_cm(name, character);
 	}
-	else if(typeof data === 'object'){
+	else if(data.name == name){
 		players[name] = data;
 		window[name] = data;
 	}

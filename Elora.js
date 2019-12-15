@@ -19,6 +19,7 @@ setInterval(function(){
 		var players_to_heal = [];
 		for(player_name in players_and_char){
 			var player = players_and_char[player_name];
+			if(player.rip) continue;
 			if(player.max_hp - player.hp >= character.attack || player.hp / player.max_hp < 0.4){
 				players_to_heal.push(player);
 			}
