@@ -3,17 +3,19 @@
 My take on automating a party for the game: http://adventure.land/
 
 * Borgam (warrior/tank/leader)
-The target he chooses is attacked by Elora and Tasha as well.
-If there is no target, he will move to a new position.
-Elora and Tasha try to stay close to Borgam so they will follow him.
+Chooses the targets. The others follow him.
 * Elora (priest/healer)
+Has healing as priority.
 * Tasha (mage/dps)
-* Obert (merchant/brings and takes from party/sells items)
+Is optimized for damage.
+* Obert (merchant/support)
+Brings potions. Takes gold and items. If not traveling to and from the party, stands in town to sell items.
+Will also upgrade items in the future.
 
-* start gets run once to spawn the players, put them in a party etc.
+* start.js gets run once to spawn the players, make a party etc.
 
-* all_begin gets run at the start of every loop for every player
-* all_end gets run at the end of every loop for every player
-* all_invtervals adds functions with a timer for every player
+* all_begin.js gets run at the start of every loop for every player.
+* all_end.js gets run at the end of every loop for every player.
+* all_invtervals.js adds functions that get called every x seconds for every player.
 
-the rest are functionalities that are used by the player/all_ files
+the rest are functionalities that are used by the players/all_.js files.
