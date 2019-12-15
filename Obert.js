@@ -56,7 +56,9 @@ setInterval(function(){
 		}
 	}
 	else if(reason == "none"){
-		start_marketing();
+		if(!is_moving(character)){
+			start_marketing();
+		}
 	}
 
 	all_end();
@@ -79,8 +81,11 @@ function stop_marketing(){
 }
 
 function start_marketing(){
-	//instead of main go to main + an offset
-	smart_move({to:"main"},function(done){
+	var destination = [G.maps.main.spawns[0][0], G.maps.main.spawns[0][1]]
+	destination[0] += 20;
+	destination[1] += 20;
+
+	smart_move({x:destination[0], y:destination[1]},function(done){
 		parent.socket.emit("merchant", {num: 2});
 		marketing = true;
 	});
