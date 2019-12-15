@@ -7,7 +7,13 @@ var players = {
 }
 delete players[character.name];
 for(player_name in players){
-	window[player_name] = players[player_name];
+	var player = players[player_name];
+	if(!player){
+		player = parent.character;
+		players[player_name] = player;
+	}
+
+	window[player_name] = player;
 }
 
 load_code("potions");
