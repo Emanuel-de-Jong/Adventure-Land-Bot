@@ -15,10 +15,16 @@ setInterval(function(){
 on_cm_functions.push(on_cm_update_players);
 function on_cm_update_players(name, data){
 	if(data == "get_player"){
-		send_cm(name, character);
+		send_cm(name, [character.name, character.real_x, character.real_y, character.rip, character.items]);
 	}
-	else if(data.name == name){
-		players[name] = data;
-		window[name] = data;
+	else if(Array.isArray(data) && data[0] == name){
+		var player = players[name];
+		player.real_x = data[1];
+		player.real_y = data[2];
+		player.rip = data[3];
+		player.items = data[4];
+
+		players[name] = player;
+		window[name] = player;
 	}
 }

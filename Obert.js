@@ -56,9 +56,7 @@ setInterval(function(){
 		}
 	}
 	else if(reason == "none"){
-		if(!is_moving(character)){
-			start_marketing();
-		}
+		start_marketing();
 	}
 
 	all_end();
@@ -81,14 +79,16 @@ function stop_marketing(){
 }
 
 function start_marketing(){
-	var destination = [G.maps.main.spawns[0][0], G.maps.main.spawns[0][1]]
-	destination[0] += 20;
-	destination[1] += 20;
-
-	smart_move({x:destination[0], y:destination[1]},function(done){
-		parent.socket.emit("merchant", {num: 2});
-		marketing = true;
-	});
+	if(!is_moving(character)){
+		var destination = [G.maps.main.spawns[0][0], G.maps.main.spawns[0][1]]
+		destination[0] += 20;
+		destination[1] += 20;
+	
+		smart_move({x:destination[0], y:destination[1]},function(done){
+			parent.socket.emit("merchant", {num: 2});
+			marketing = true;
+		});
+	}
 }
 
 
