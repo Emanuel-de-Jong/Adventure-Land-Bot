@@ -1,4 +1,3 @@
 skills
 obert depositing and selling
-make player's gold and inventory Oberts responsibility
 make the start script

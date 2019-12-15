@@ -7,7 +7,7 @@ setInterval(function(){
 	if(all_begin()) return;
 	
 	if(!is_moving(character)){
-		if(!is_in_range(Borgam, "attack")){
+		if(simple_distance(character, Borgam) > character.range){
 			smart_move(Borgam);
 		}
 	}

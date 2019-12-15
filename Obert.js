@@ -3,15 +3,14 @@ load_code("all_begin");
 load_code("all_end");
 load_code("all_intervals");
 
-var marketing = false;
 var reason = "none";
 var potions_bought = false;
 setInterval(function(){
-	if(marketing) return;
+	if(!merchant_busy) return;
 	if(all_begin()) return;
 	
 	if(reason == "call"){
-		if(!is_in_range(caller, "attack")){
+		if(simple_distance(character, caller) > 300){
 			if(!is_moving(character)){
 				smart_move(caller);
 			}
@@ -75,7 +74,7 @@ function on_cm_obert(name, data){
 
 function stop_marketing(){
 	parent.socket.emit("merchant", {close:1});
-	marketing = false;
+	merchant_busy = true;
 }
 
 function start_marketing(){
@@ -86,7 +85,7 @@ function start_marketing(){
 	
 		smart_move({x:destination[0], y:destination[1]},function(done){
 			parent.socket.emit("merchant", {num: 2});
-			marketing = true;
+			merchant_busy = false;
 		});
 	}
 }
@@ -106,7 +105,7 @@ var min_mpot = 100;
 var mpot_overshoot = 200;
 
 setInterval(function(){
-	if(!marketing) return;
+	if(merchant_busy) return;
 
 	potions_needed_combined = [0, 0];
 

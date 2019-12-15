@@ -1,9 +1,8 @@
 //send_to_merchant
 var throwaway_items = [];
-items_to_send = {};
-var merchant_called = false;
+var items_to_send = {};
 setInterval(function(){
-	if(merchant_called) return;
+	if(merchant_busy) return;
 
 	if(character.gold > character.max_hp * 10){
 		call_merchant();
@@ -25,14 +24,11 @@ setInterval(function(){
 
 function call_merchant(){
 	send_cm(Obert.name, "call");
-	merchant_called = true;
 }
 
 on_cm_functions.push(on_cm_send_to_merchant);
 function on_cm_send_to_merchant(name, data){
 	if(name == "Obert" && data == "in_range"){
-		merchant_called = false;
-
 		if(items_to_send.length != 0){
 			for(item_index in items_to_send){
 				parent.socket.emit("send", {name:"Obert", num:item_index, q:items_to_send[item_index]});

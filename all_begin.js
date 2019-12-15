@@ -15,6 +15,7 @@ for(player_name in players){
 
 	window[player_name] = player;
 }
+var merchant_busy = false;
 
 load_code("potions");
 load_code("keep_distance");
