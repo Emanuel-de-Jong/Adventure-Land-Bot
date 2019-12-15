@@ -41,7 +41,7 @@ function on_cm_send_to_merchant(name, data){
 		}
 
 		if(character.gold > character.max_hp * 10){
-			parent.socket.emit("send", {name:Obert.name, gold:character.gold});
+			parent.socket.emit("send", {name:"Obert", gold:character.gold});
 		}
 	}
 }

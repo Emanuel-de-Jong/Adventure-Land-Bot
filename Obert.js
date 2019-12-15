@@ -24,8 +24,8 @@ setInterval(function(){
 		if(!is_moving(character)){
 			if(!potions_bought){
 				smart_move({to:"potions"}, function(done){
-					buy("hpot1", potions_needed_combined[0]);
-					buy("mpot1", potions_needed_combined[1]);
+					parent.buy("hpot1", potions_needed_combined[0]);
+					parent.buy("mpot1", potions_needed_combined[1]);
 					potions_bought = true;
 				});
 			}
@@ -44,8 +44,8 @@ setInterval(function(){
 					if(send_player_potions){
 						var player = players[player_name];
 						smart_move({to:player}, function(done){
-							send_item(player, 0, potions[0]);
-							send_item(player, 1, potions[1]);
+							parent.socket.emit("send", {name:player_name, num:0, q:potions[0]});
+							parent.socket.emit("send", {name:player_name, num:1, q:potions[1]});
 						});
 						return;
 					}
@@ -60,7 +60,7 @@ setInterval(function(){
 	}
 
 	all_end();
-},1000/4);
+},1000/2);
 
 
 var caller;
@@ -79,6 +79,7 @@ function stop_marketing(){
 }
 
 function start_marketing(){
+	//instead of main go to main + an offset
 	smart_move({to:"main"},function(done){
 		parent.socket.emit("merchant", {num: 2});
 		marketing = true;
@@ -93,14 +94,14 @@ for(player_name in players){
 }
 potions_needed_combined = [0, 0];
 
-var min_hpot = 150;
+var min_hpot = 100;
 var hpot_overshoot = 150;
 
-var min_mpot = 150;
-var mpot_overshoot = 150;
+var min_mpot = 100;
+var mpot_overshoot = 200;
 
 setInterval(function(){
-	if(reason == "player_needs_potion") return;
+	if(!marketing) return;
 
 	potions_needed_combined = [0, 0];
 
