@@ -62,6 +62,7 @@ function find_farming_area(){
 	for(i = 0; i < farming_areas.length; i++){
 		var area = farming_areas[i]["boundary"];
 		if(!area) continue;
+		if(typeof area[0] === 'number') continue;
 
 		var area_x = area[0] + ((area[2] - area[0]) / 2);
 		var area_y = area[1] + ((area[3] - area[1]) / 2);
