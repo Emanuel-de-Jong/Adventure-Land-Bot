@@ -24,10 +24,8 @@ setInterval(function(){
 		if(!is_moving(character)){
 			if(!potions_bought){
 				smart_move({to:"potions"}, function(done){
-					for(potion_type in potions_needed_combined){
-						//needs a gold check
-						buy(potion_type, potions_needed_combined[potion_type]);
-					}
+					buy("hpot1", potions_needed_combined[0]);
+					buy("mpot1", potions_needed_combined[1]);
 					potions_bought = true;
 				});
 			}
@@ -36,21 +34,18 @@ setInterval(function(){
 					var potions = potions_needed[player_name];
 
 					var send_player_potions = false;
-					for(potion_type in potions){
-						if(potions[potion_type] > 0){
-							send_player_potions = true;
-						}
+					if(potions[0] > 0){
+						send_player_potions = true;
+					}
+					else if(potions[1] > 0){
+						send_player_potions = true;
 					}
 
 					if(send_player_potions){
 						var player = players[player_name];
 						smart_move({to:player}, function(done){
-							for(potion_type in potions){
-								if(potion_type == "hpot0") send_item(player, 0, potions[potion_type]);
-								else if(potion_type == "hpot1") send_item(player, 1, potions[potion_type]);
-								else if(potion_type == "mpot0") send_item(player, 2, potions[potion_type]);
-								else if(potion_type == "mpot1") send_item(player, 3, potions[potion_type]);
-							}
+							send_item(player, 0, potions[0]);
+							send_item(player, 1, potions[1]);
 						});
 						return;
 					}
@@ -72,9 +67,9 @@ var caller;
 on_cm_functions.push(on_cm_obert);
 function on_cm_obert(name, data){
 	if(data == "call"){
-		stop_marketing();
 		reason = data;
 		caller = players[name];
+		stop_marketing();
 	}
 }
 
@@ -85,7 +80,7 @@ function stop_marketing(){
 
 function start_marketing(){
 	smart_move({to:"main"},function(done){
-		parent.socket.emit("merchant", {num: 4});
+		parent.socket.emit("merchant", {num: 2});
 		marketing = true;
 	});
 }
@@ -94,42 +89,24 @@ function start_marketing(){
 
 var potions_needed = {};
 for(player_name in players){
-	potions_needed[player_name] = {
-		"hpot0": 0,
-		"hpot1": 0,
-		"mpot0": 0,
-		"mpot1": 0
-	};
+	potions_needed[player_name] = [0, 0];
 }
-potions_needed_combined = {
-	"hpot0": 0,
-	"hpot1": 0,
-	"mpot0": 0,
-	"mpot1": 0
-};
+potions_needed_combined = [0, 0];
 
 var min_hpot = 150;
 var hpot_overshoot = 150;
-var hp_before_potion_type_change = 1500;
 
 var min_mpot = 150;
 var mpot_overshoot = 150;
-var mp_before_potion_type_change = 1000;
 
 setInterval(function(){
 	if(reason == "player_needs_potion") return;
 
-	var any_players_needs_potion = false;
+	potions_needed_combined = [0, 0];
+
+	var any_player_needs_potion = false;
 	for(player_name in players){
 		var player = players[player_name];
-
-		var hpot_type;
-		if(player.max_hp < hp_before_potion_type_change) hpot_type = "hpot0";
-		else hpot_type = "hpot1";
-
-		var mpot_type;
-		if(player.max_mp < mp_before_potion_type_change) mpot_type = "mpot0";
-		else mpot_type = "mpot1";
 
 		var hpot_needed;
 		var mpot_needed;
@@ -138,34 +115,34 @@ setInterval(function(){
 
 			if(item == null) continue;
 
-			if(item["name"] == hpot_type){
+			if(item["name"] == "hpot1"){
 				hpot_needed = min_hpot - item["q"];
 
 				if(hpot_needed > 0){
-					any_players_needs_potion = true;
+					any_player_needs_potion = true;
 
 					hpot_needed += hpot_overshoot;
-					potions_needed[player_name][hpot_type] = hpot_needed;
-					potions_needed_combined[hpot_type] += hpot_needed;
+					potions_needed[player_name][0] = hpot_needed;
+					potions_needed_combined[0] += hpot_needed;
 				}
 			}
-			else if(item["name"] == mpot_type){
+			else if(item["name"] == "mpot1"){
 				mpot_needed = min_mpot - item["q"];
 
-				if(hpot_needed > 0){
-					any_players_needs_potion = true;
+				if(mpot_needed > 0){
+					any_player_needs_potion = true;
 
 					mpot_needed += mpot_overshoot;
-					potions_needed[player_name][mpot_type] = mpot_needed;
-					potions_needed_combined[mpot_type] += mpot_needed;
+					potions_needed[player_name][1] = mpot_needed;
+					potions_needed_combined[1] += mpot_needed;
 				}
 			}
 		}
 	}
 
-	if(any_players_needs_potion){
-		stop_marketing();
+	if(any_player_needs_potion){
 		reason = "player_needs_potion";
+		stop_marketing();
 	}
 },1000*180);
 
