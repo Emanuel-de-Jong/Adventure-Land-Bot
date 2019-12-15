@@ -68,7 +68,7 @@ function find_farming_area(){
 		var area_y = area[1] + ((area[3] - area[1]) / 2);
 		area = [area_x, area_y];
 
-		if(last_ten_areas.includes(area)) continue;
+		if(last_ten_areas.includes(JSON.stringify(area))) continue;
 		var dist = distance(character, area);
 		if(dist < nearest_area){
 			nearest_area = dist;
@@ -76,7 +76,7 @@ function find_farming_area(){
 		}
 	}
 	
-	last_ten_areas.unshift(new_area);
+	last_ten_areas.unshift(JSON.stringify(new_area));
 	if(last_ten_areas.length >= 11){
 		last_ten_areas.pop();
 	}
