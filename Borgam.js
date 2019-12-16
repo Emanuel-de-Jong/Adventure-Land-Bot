@@ -113,8 +113,8 @@ function find_target(players_to_protect=[], only_monsters_targeting=false){
 		if(!monster_targeting && !only_monsters_targeting){
 			if(ent.target && ent.target != character.name) continue;
 			if(ent.hp*3 > character.hp || ent.hp < character.attack*2) continue;
-			if(ent.attack > character.hp/10) continue;
-			if(ent.xp < ent.hp*1.2) continue;
+			if(ent.attack > character.hp/5) continue;
+			if(ent.xp < ent.hp) continue;
 			if(!can_move({x:ent.real_x, y:ent.real_y})) continue;
 
 			monsters[id] = distance(character, ent);
