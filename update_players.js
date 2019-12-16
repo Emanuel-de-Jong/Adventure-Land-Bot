@@ -15,7 +15,8 @@ setInterval(function(){
 on_cm_functions.push(on_cm_update_players);
 function on_cm_update_players(name, data){
 	if(data == "get_player"){
-		send_cm(name, [character.name, character.real_x, character.real_y, character.x, character.y, character.rip, character.items]);
+		var player = parent.character;
+		send_cm(name, [player.name, player.real_x, player.real_y, player.x, player.y, player.rip, player.items]);
 	}
 	else if(Array.isArray(data) && data[0] == name){
 		var player = players[name];
