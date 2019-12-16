@@ -1,4 +1,6 @@
 //all_begin
+performance_trick()
+
 var players = {
 	"Borgam": get_player("Borgam"),
 	"Elora": get_player("Elora"),
