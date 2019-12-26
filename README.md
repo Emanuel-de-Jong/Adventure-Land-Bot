@@ -22,11 +22,10 @@ the rest are functionalities that are used by the players/all_.js files.
 
 
 ## Information
-- Type: 
-- For: 
-- Language: 
-- Programming languages: 
-- Frameworks and libraries: 
+- Type: Bot
+- For: Adventure Land
+- Programming languages: Javascript
+- Frameworks and libraries: Adventure Land
 
 
 ## Progress
