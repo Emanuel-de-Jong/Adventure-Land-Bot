@@ -45,4 +45,6 @@ the rest are functionalities that are used by the players/all_.js files.
          - Obert should sell the unwanted items and deposit to the bank when he has a lot of gold
 
 ## Screenshots
-![Game](/Screenshots/Game.png)
+![Game 1](/Screenshots/Game%201.png)
+
+![Game 2](/Screenshots/Game%202.png)
