@@ -1,5 +1,4 @@
-# Adventure-Land
-## Description
+# Adventure Land
 My take on automating a party for the game: http://adventure.land/
 
 * Borgam (warrior/tank/leader)
@@ -19,6 +18,20 @@ Will also upgrade items in the future.
 * all_invtervals.js adds functions that get called every x seconds for every player.
 
 the rest are functionalities that are used by the players/all_.js files.
+
+### Table of Contents
+- [About](#about)
+
+| | |
+| :---: | :---: |
+| ![Game](/Screenshots/1-Game.png) | ![Game](/Screenshots/2-Game.png) |
+
+## About
+| | |
+| --- | --- |
+| | - **Project Overview** - |
+| **Active Development:** | 2019-12-07 - 2019-12-17 |
+| **Maintenance:** |  |
 
 
 ## Information
@@ -43,8 +56,3 @@ the rest are functionalities that are used by the players/all_.js files.
          - Obert takes gold and unwanted items from the other characters and buys potions for them
 - Main features missing: 
          - Obert should sell the unwanted items and deposit to the bank when he has a lot of gold
-
-## Screenshots
-![Game 1](/Screenshots/Game%201.png)
-
-![Game 2](/Screenshots/Game%202.png)
