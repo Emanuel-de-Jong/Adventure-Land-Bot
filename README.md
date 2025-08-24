@@ -1,5 +1,5 @@
 # Adventure Land Bot
-My take on automating a party for the game: http://adventure.land/
+My take on automating a party for the programming MMORPG [Adventure Land](http://adventure.land/).
 
 - Borgam (warrior/tank/leader)<br>
 Chooses the targets. The others follow him.
