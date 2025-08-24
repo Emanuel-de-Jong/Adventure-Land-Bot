@@ -26,7 +26,7 @@ the rest are functionalities that are used by the players/all_.js files.
 
 | | |
 | :---: | :---: |
-| ![Game](/Screenshots/1-Game.png) | ![Game](/Screenshots/2-Game.png) |
+| ![](/Screenshots/1-Game.png) | ![](/Screenshots/2-Game.png) |
 
 ## Information
 - Type: Bot
