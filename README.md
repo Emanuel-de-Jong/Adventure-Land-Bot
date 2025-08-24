@@ -1,4 +1,4 @@
-# Adventure Land
+# Adventure Land Bot
 My take on automating a party for the game: http://adventure.land/
 
 * Borgam (warrior/tank/leader)
@@ -8,8 +8,7 @@ Has healing as priority.
 * Tasha (mage/dps)
 Is optimized for damage.
 * Obert (merchant/support)
-Brings potions. Takes gold and items. If not traveling to and from the party, stands in town to sell items.
-Will also upgrade items in the future.
+Brings potions. Takes gold and items. If not traveling to and from the party, stands in town to sell items. Will also upgrade items in the future.
 
 * start.js gets run once to spawn the players, make a party etc.
 
@@ -19,20 +18,12 @@ Will also upgrade items in the future.
 
 the rest are functionalities that are used by the players/all_.js files.
 
-### Table of Contents
-- [About](#about)
+**Active Development:** <br>
+**Last Change:** <br>
 
 | | |
 | :---: | :---: |
 | ![Game](/Screenshots/1-Game.png) | ![Game](/Screenshots/2-Game.png) |
-
-## About
-| | |
-| --- | --- |
-| | - **Project Overview** - |
-| **Active Development:** | 2019-12-07 - 2019-12-17 |
-| **Maintenance:** |  |
-
 
 ## Information
 - Type: Bot
@@ -40,19 +31,18 @@ the rest are functionalities that are used by the players/all_.js files.
 - Programming languages: Javascript
 - Frameworks and libraries: Adventure Land
 
-
 ## Progress
-- Start date: 07.12.19
-- Last change: 17.12.19
+- Start date: 2019-12-07
+- Last change: 2019-12-17
 - Activity status: Paused
 - Reason activity status: I need to do a project to learn for my examns. I'll resume this later
 - Completion status: 85%
 - Useable: No
 - Reason useability: It has a bug that makes the leader keep moving without attacking
 - Main features included: 
-         - The group stays together
-         - Everyone attacks the leader's target
-         - Elora heals
-         - Obert takes gold and unwanted items from the other characters and buys potions for them
+    - The group stays together
+    - Everyone attacks the leader's target
+    - Elora heals
+    - Obert takes gold and unwanted items from the other characters and buys potions for them
 - Main features missing: 
-         - Obert should sell the unwanted items and deposit to the bank when he has a lot of gold
+    - Obert should sell the unwanted items and deposit to the bank when he has a lot of gold
