@@ -21,8 +21,8 @@ Adds functions that get called every x seconds for every player.
 
 the rest are functionalities that are used by the players/all_.js files.
 
-**Active Development:** <br>
-**Last Change:** <br>
+**Active Development:** 2019-12-07 - 2019-12-16<br>
+**Last Change:** 2019-12-16<br>
 
 | | |
 | :---: | :---: |
@@ -35,9 +35,7 @@ the rest are functionalities that are used by the players/all_.js files.
 - Frameworks and libraries: Adventure Land
 
 ## Progress
-- Start date: 2019-12-07
-- Last change: 2019-12-17
-- Activity status: Paused
+- Activity status: Archived
 - Reason activity status: I need to do a project to learn for my examns. I'll resume this later
 - Completion status: 85%
 - Useable: No
