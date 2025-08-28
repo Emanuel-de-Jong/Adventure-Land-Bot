@@ -47,3 +47,4 @@ the rest are functionalities that are used by the players/all_.js files.
     - Obert takes gold and unwanted items from the other characters and buys potions for them
 - Main features missing: 
     - Obert should sell the unwanted items and deposit to the bank when he has a lot of gold
+ 
